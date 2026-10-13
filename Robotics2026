@@ -1,17 +1,27 @@
 from XRPLib.defaults import *
+from XRPLib.gamepad import *
 
 # available variables from defaults: left_motor, right_motor, drivetrain,
 #      imu, rangefinder, reflectance, servo_one, board, webserver
 # Write your code Here
 #drive straight for a set period of time (default 1 second)
+
+gp = Gamepad.get_default_gamepad()
+
+
 def drive_straight(drive_time: float = 1):
     drivetrain.set_effort(0.8, 0.8)
     drivetrain.stop()
 
-    # Approaches a wall at a set speed and then stops
-def drive_till_close(target_distance: float = 10.0):
-    speed = 0.6
-    while rangefinder.distance() > target_distance:
-        drivetrain.set_effort(speed, speed)
-        time.sleep(0.01)
-    drivetrain.set_effort(0, 0)
+
+while True:
+    
+    leftSpeed = 0
+    rightSped = 0
+    
+    leftSpeed = (-gp.get_value(gp.X2) + gp.get_value(gp.Y1))
+    rightSpeed = (gp.get_value(gp.X2) + gp.get_value(gp.Y1))
+    
+    drivetrain.set_effort(leftSpeed, rightSpeed)
+    
+    
